@@ -21,6 +21,29 @@ python analysis.py
 
 Results: written to `results.json` (and `figures/f1_comparison.png`).
 
+## Results (latest run)
+
+On a seeded simulated monoparametric piecewise-linear map (1,000 test points), a standard logistic regression on single-trajectory summaries reached F1 0.843 for the multistable class, while my class-balanced LightGBM on multi-initial-condition features reached 0.983.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.8433 |
+| improved_score | 0.9831 |
+| improvement | 0.1398 |
+| baseline_score_std | 0 |
+| improved_score_std | 0.00198 |
+| baseline_f1 | 0.8433 |
+| improved_f1 | 0.9831 |
+| baseline_roc_auc | 0.9522 |
+| improved_roc_auc | 0.9995 |
+| baseline_brier | 0.07751 |
+| improved_brier | 0.00828 |
+| multistable_rate | 0.3563 |
+
+Run on 2026-10-21. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Simulated data, not the paper's system; results depend on the sampling ranges and the clustering tolerance. The baseline is a standard stand-in, not the paper's method. Threshold 0.5 fixed for F1; no tuning on the test set. Logistic regression is deterministic so its std reflects no seed variation. The 16-IC/100-step features may not have converged for slow transients, which limits the improved model. No downloads, so no HTTP retry logic is needed.
+
 ## Reference
 
 This project is motivated by the following paper:
