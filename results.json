@@ -1,0 +1,32 @@
+{
+  "question": "Can a class-balanced, CV-tuned gradient-boosting model using multi-initial-condition trajectory features detect multistability in a monoparametric PWL map better than logistic regression on a single-trajectory summary?",
+  "method": "Seeded simulation of x_{n+1}=clip(a x - b|x| + c, -2, 2); label from 200 ICs over 500 steps (>=2 attractors each holding >=5% of ICs); stratified 75/25 split; baseline logistic regression vs LightGBM with balanced weights, 5-fold CV grid and sigmoid calibration; seeds 42-44.",
+  "dataset": {
+    "name": "Simulated monoparametric piecewise-linear map (seeded, no download)",
+    "source_url": "https://numpy.org",
+    "n_rows": 4000,
+    "n_train": 3000,
+    "n_test": 1000,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "F1 on multistable class (test set)",
+  "higher_is_better": true,
+  "baseline": "Standardised logistic regression on the map parameters plus mean, std, min, max of one trajectory from x0=0.5 (500 steps, last 200 kept).",
+  "improved": "LightGBM with balanced class weights, small 5-fold CV grid search on the training set, sigmoid calibration; features are the parameters plus cluster counts, spread and end-state fractions from 16 initial conditions over 100 steps.",
+  "metrics": {
+    "baseline_score": 0.8433382137628112,
+    "improved_score": 0.9831157597247809,
+    "improvement": 0.13977754596196978,
+    "baseline_score_std": 0.0,
+    "improved_score_std": 0.001979710354543259,
+    "baseline_f1": 0.8433382137628112,
+    "improved_f1": 0.9831157597247809,
+    "baseline_roc_auc": 0.9522297438760555,
+    "improved_roc_auc": 0.9995289273501292,
+    "baseline_brier": 0.07750536814261426,
+    "improved_brier": 0.008280400007892881,
+    "multistable_rate": 0.35625
+  },
+  "notes": "Simulated data, not the paper's system; results depend on the sampling ranges and the clustering tolerance. The baseline is a standard stand-in, not the paper's method. Threshold 0.5 fixed for F1; no tuning on the test set. Logistic regression is deterministic so its std reflects no seed variation. The 16-IC/100-step features may not have converged for slow transients, which limits the improved model. No downloads, so no HTTP retry logic is needed."
+}
